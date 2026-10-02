@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-5 text-center shadow-sm">
+            <h2 class="display-6">Assessment Complete</h2>
+            <hr>
+            <div class="my-3">
+                <p class="fs-5 text-muted mb-1">Your Final Score</p>
+                <span class="display-3 fw-bold text-primary">{{ score }} / {{ total }}</span>
+                <p class="fs-4 mt-2">({{ percentage }}%)</p>
+            </div>
+            
+            <div class="alert alert-{{ badge_class }} fs-5 my-3" role="alert">
+                <strong>Remark:</strong> {{ remark }}
+            </div>
+            
+            <div class="mt-4">
+                
+                <a href="/" class="btn btn-secondary">Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

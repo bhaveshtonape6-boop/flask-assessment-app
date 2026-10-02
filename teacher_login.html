@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center my-5">
+    <div class="col-md-5 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+            
+            <!-- ICON BADGE (Matching index.html style) -->
+            <div class="bg-success-subtle text-success rounded-circle p-3 mx-auto mb-3" style="width: 70px; height: 70px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
+                    <path d="M2.5 2A1.5 1.5 0 0 0 1 3.5v11A1.5 1.5 0 0 0 2.5 16h11a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 13.5 2zM2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M6 6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0M2 13s-.5 0-.5-.5A2.5 2.5 0 0 1 4 10h1a2.5 2.5 0 0 1 2.5 2.5c0 .5-.5.5-.5.5z"/>
+                </svg>
+            </div>
+
+            <h3 class="fw-bold text-dark mb-1">Educator Login</h3>
+            <p class="text-muted small mb-4">Enter your passcode to access the teacher dashboard.</p>
+            
+            {% if error %}
+                <div class="alert alert-danger py-2 fs-6 rounded-3 text-start">{{ error }}</div>
+            {% endif %}
+            
+            {% if success %}
+                <div class="alert alert-success py-2 fs-6 rounded-3 text-start">{{ success }}</div>
+            {% endif %}
+
+            <form method="POST" class="text-start">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-dark">Passcode</label>
+                    <input type="password" name="password" class="form-control form-control-lg rounded-3 fs-6" placeholder="Enter passcode" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg w-100 rounded-pill shadow-sm fw-bold mt-2">
+                    login
+                </button>
+            </form>
+
+            <div class="mt-4 pt-2 border-top text-center">
+                <a href="/teacher/forgot-password" class="text-decoration-none small text-muted fw-semibold">Forgot Passcode?</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

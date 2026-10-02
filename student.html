@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex" style="min-height: calc(100vh - 56px);">
+    <!-- SIDEBAR WITH COLLAPSIBLE SUBJECTS -->
+    <div class="bg-dark text-white p-3 shadow" style="width: 280px; min-width: 280px;">
+        
+        <!-- COLLAPSE TOGGLE HEADER -->
+        <button class="btn btn-dark w-100 d-flex justify-content-between align-items-center fw-bold p-2 text-white border-0 shadow-none" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#subjectList" 
+                aria-expanded="true" 
+                aria-controls="subjectList">
+            <span class="text-uppercase text-light fs-6">Select Test Subject</span>
+            <svg id="arrowIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-down transition-arrow rotate-180" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </button>
+
+        <hr class="border-secondary my-2">
+
+        <!-- COLLAPSIBLE SUBJECT LIST -->
+        <div class="collapse show mt-2" id="subjectList">
+            <div class="nav flex-column nav-pills">
+                {% for sub in subjects %}
+                    <a href="{{ url_for('student', subject=sub) }}" 
+                       class="nav-link text-white fw-semibold mb-2 py-2 px-3 rounded-3 {% if current_subject == sub %}active bg-primary{% else %}bg-secondary bg-opacity-25{% endif %}">
+                       {{ sub }} Test
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TEST CONTENT -->
+    <div class="flex-grow-1 p-4 bg-light d-flex align-items-start justify-content-center">
+        <div class="card p-4 border-0 shadow-sm rounded-4 w-100">
+            {% if not current_subject %}
+                <!-- NO SUBJECT SELECTED PLACEHOLDER -->
+                <div class="text-center py-5">
+                    <div class="bg-primary-subtle text-primary rounded-circle p-3 mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                            <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+                        </svg>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-2">Select the Subject to Take Test</h3>
+                </div>
+            {% else %}
+                <!-- SINGLE TEST FORM FOR BOTH STUDENT DETAILS AND QUESTIONS -->
+                <form method="POST" action="/student?subject={{ current_subject }}">
+                    
+                    <!-- STUDENT INFO SECTION -->
+                    <div class="card p-3 mb-4 border-0 bg-white shadow-sm rounded-3">
+                        <h5 class="fw-bold mb-3 text-secondary">Student Details</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Student Name</label>
+                                <input type="text" name="student_name" class="form-control" placeholder="Enter Full Name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Roll Number</label>
+                                <input type="text" name="roll_no" class="form-control" placeholder="Enter Roll No." required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Class / Section</label>
+                                <input type="text" name="student_class" class="form-control" placeholder="e.g. 10th A" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-3 text-primary fw-bold">{{ current_subject }} Assessment</h3>
+                    <hr class="mb-4">
+                    
+                    {% if not questions %}
+                        <p class="text-muted fs-5">No questions available for {{ current_subject }} yet.</p>
+                    {% else %}
+                        <!-- QUESTIONS LIST -->
+                        {% for q in questions %}
+                            <div class="mb-4 p-3 border rounded-3 bg-white">
+                                <h5 class="fw-bold mb-3">{{ loop.index }}. {{ q.question }}</h5>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_{{ q.id }}" value="A" id="q{{ q.id }}_a" required>
+                                    <label class="form-check-label" for="q{{ q.id }}_a">A) {{ q.option_a }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_{{ q.id }}" value="B" id="q{{ q.id }}_b">
+                                    <label class="form-check-label" for="q{{ q.id }}_b">B) {{ q.option_b }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_{{ q.id }}" value="C" id="q{{ q.id }}_c">
+                                    <label class="form-check-label" for="q{{ q.id }}_c">C) {{ q.option_c }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_{{ q.id }}" value="D" id="q{{ q.id }}_d">
+                                    <label class="form-check-label" for="q{{ q.id }}_d">D) {{ q.option_d }}</label>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <!-- ONLY ONE SINGLE SUBMIT BUTTON AT THE BOTTOM -->
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">Submit {{ current_subject }} Test</button>
+                    {% endif %}
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .transition-arrow {
+        transition: transform 0.25s ease;
+    }
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const subjectList = document.getElementById('subjectList');
+        const arrowIcon = document.getElementById('arrowIcon');
+
+        if (subjectList && arrowIcon) {
+            subjectList.addEventListener('hide.bs.collapse', function () {
+                arrowIcon.classList.remove('rotate-180');
+            });
+
+            subjectList.addEventListener('show.bs.collapse', function () {
+                arrowIcon.classList.add('rotate-180');
+            });
+        }
+    });
+</script>
+
+{% endblock %}
