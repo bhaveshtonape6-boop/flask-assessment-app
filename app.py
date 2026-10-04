@@ -11,10 +11,11 @@ from google import genai
 from google.genai import types
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY','super_secret_key')
 
 # Initialize Gemini Client
-client = genai.Client(api_key="AQ.Ab8RN6LU1TPOLO9D3Evdtwr6oMGT7cDD-W8DBT_e6CI3OMKZeQ")
+api_key = os.environ.get('GENAI_API_KEY', 'AQ.Ab8RN6KqGldodAyq4hwzfFGNbtGwBOucC0gCUNojQ4pTwU1cfA')
+client = genai.Client(api_key=api_key) if api_key else None
 
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
