@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
 # Initialize Gemini Client
-client = genai.Client(api_key="AQ.Ab8RN6IOc97cntZTYrxMvzQZKZtG9DsTKKghn-MYQ0Rverp0Ow")
+client = genai.Client(api_key="AQ.Ab8RN6LU1TPOLO9D3Evdtwr6oMGT7cDD-W8DBT_e6CI3OMKZeQ")
 
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
