@@ -11,11 +11,17 @@ from google import genai
 from google.genai import types
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY','super_secret_key')
 
-# Initialize Gemini Client
-api_key = os.environ.get('GENAI_API_KEY', 'AQ.Ab8RN6KqGldodAyq4hwzfFGNbtGwBOucC0gCUNojQ4pTwU1cfA')
-client = genai.Client(api_key=api_key) if api_key else None
+# Initialize for Vertex AI token format
+api_key = os.environ.get("AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA")
+
+if api_key:
+    # Set location/project if using Vertex AI express key
+    client = genai.Client(
+        vertexai=True,
+        project=os.environ.get("GCP_PROJECT_ID", "your-project-id"),
+        location="us-central1"
+    )
 
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
