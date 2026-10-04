@@ -11,7 +11,7 @@ from google import genai
 from google.genai import types
 
 app = Flask(__name__)
-
+app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
 # Initialize for Vertex AI token format
 api_key = os.environ.get("AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA")
 
