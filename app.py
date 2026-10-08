@@ -15,10 +15,11 @@ from google.genai import types
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
 api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LdFqGF7kIdQYF-UY-rdUUXBNQjoOM4D1xuarIiyTwYCQ")
+api_key = raw_key.strip().strip('"').strip("'") if raw_key else None
 
 client = None
 if api_key:
-    client = genai.Client(api_key=api_key.strip())
+    client = genai.Client(api_key=api_key)
 
 
 DEFAULT_SUBJECTS = [
