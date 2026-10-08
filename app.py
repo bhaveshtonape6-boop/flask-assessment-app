@@ -21,10 +21,9 @@ api_key = raw_key.strip().strip('"').strip("'") if raw_key else None
 
 client = None
 if api_key:
-    # Explicitly pass your GCP Project ID alongside the AQ auth key
-    project_id = os.environ.get("GCP_PROJECT_ID", "gen-lang-client-0850600903")
-    client = genai.Client(api_key=api_key, project=project_id)
-
+    # Pass ONLY api_key (do NOT pass project or location)
+    client = genai.Client(api_key=api_key)
+    
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
     "Biology", "History", "Geography", "Economics", "Information Technology"
