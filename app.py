@@ -17,11 +17,15 @@ api_key = os.environ.get("AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA"
 
 if api_key:
     # Set location/project if using Vertex AI express key
-    client = genai.Client(
+    client = genai.Client(api_key="AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA")
         vertexai=True,
         project=os.environ.get("GCP_PROJECT_ID", "your-project-id"),
         location="us-central1"
     )
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents="Hello world",
+)
 
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
