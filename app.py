@@ -14,18 +14,13 @@ from google.genai import types
 # 1. DEFINE THE FLASK APP INSTANCE FIRST
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
-
-# 2. GEMINI CLIENT SETUP
-api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LMtGloI8DiB1J6njEs1kDyKd8gI6F1slLDVfxw8GiFYA")
+api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LVWj_KMyp2bqwtI3IKrHHVgE-zhZ_Mk6HljanlBuq8EQ")
 
 client = None
 if api_key:
-    client = genai.Client(
-        api_key=api_key,
-        vertexai=True,
-        project=os.environ.get("GCP_PROJECT_ID", "your-project-id"),
-        location="us-central1"
-    )
+    client = genai.Client(api_key=api_key.strip())
+
+
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
     "Biology", "History", "Geography", "Economics", "Information Technology"
