@@ -14,12 +14,18 @@ from google.genai import types
 # 1. DEFINE THE FLASK APP INSTANCE FIRST
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
+import os
+from google import genai
+
+# Fetch clean key string
 raw_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LdFqGF7kIdQYF-UY-rdUUXBNQjoOM4D1xuarIiyTwYCQ")
 api_key = raw_key.strip().strip('"').strip("'") if raw_key else None
+
 client = None
 if api_key:
-    client = genai.Client(api_key=api_key)
-
+    # Explicitly pass your GCP Project ID alongside the AQ auth key
+    project_id = os.environ.get("GCP_PROJECT_ID", "gen-lang-client-0850600903")
+    client = genai.Client(api_key=api_key, project=project_id)
 
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
