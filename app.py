@@ -6,14 +6,18 @@ import webbrowser
 from threading import Timer
 from collections import defaultdict
 from datetime import datetime, date
+
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from google import genai
 from google.genai import types
 
-# Retrieve API Key from environment variable or direct string
+# 1. DEFINE THE FLASK APP INSTANCE FIRST
+app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
+
+# 2. GEMINI CLIENT SETUP
 api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6L8Kc1fqbR129ynf2eUC1_II6y591i60czbEqYpj0pAQA")
 
-# Initialize global Gemini client
 client = None
 if api_key:
     client = genai.Client(
