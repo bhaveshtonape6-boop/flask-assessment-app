@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
 
 # 2. GEMINI CLIENT SETUP
-api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6L8Kc1fqbR129ynf2eUC1_II6y591i60czbEqYpj0pAQA")
+api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LMtGloI8DiB1J6njEs1kDyKd8gI6F1slLDVfxw8GiFYA")
 
 client = None
 if api_key:
