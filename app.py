@@ -14,8 +14,6 @@ from google.genai import types
 # 1. DEFINE THE FLASK APP INSTANCE FIRST
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
-import os
-from google import genai
 
 # Fetch clean key string
 raw_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LdFqGF7kIdQYF-UY-rdUUXBNQjoOM4D1xuarIiyTwYCQ")
