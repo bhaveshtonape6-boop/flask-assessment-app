@@ -10,23 +10,18 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from google import genai
 from google.genai import types
 
-app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key-12345")
-# Initialize for Vertex AI token format
-api_key = os.environ.get("AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA")
+# Retrieve API Key from environment variable or direct string
+api_key = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6L8Kc1fqbR129ynf2eUC1_II6y591i60czbEqYpj0pAQA")
 
+# Initialize global Gemini client
+client = None
 if api_key:
-    # Set location/project if using Vertex AI express key
-    client = genai.Client(api_key="AQ.Ab8RN6L8Kc1fqbR129ynf2eUCl_II6y591i60czbEqYpj0pAQA")
+    client = genai.Client(
+        api_key=api_key,
         vertexai=True,
         project=os.environ.get("GCP_PROJECT_ID", "your-project-id"),
         location="us-central1"
     )
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="Hello world",
-)
-
 DEFAULT_SUBJECTS = [
     "Mathematics", "English", "Physics", "Chemistry", 
     "Biology", "History", "Geography", "Economics", "Information Technology"
